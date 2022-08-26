@@ -33,7 +33,10 @@ async function connect() {
 
   //   get api
   app.get("/api/notes", async (req: Request, res: Response) => {
-    const notes = await noteCollections.find({}).toArray();
+    const notes = await noteCollections
+      .find({})
+      .sort({ $natural: -1 })
+      .toArray();
     res.json(notes);
   });
 
