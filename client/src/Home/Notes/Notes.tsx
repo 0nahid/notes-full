@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { MdDeleteSweep, MdOutlineShare, MdTipsAndUpdates } from "react-icons/md";
 import Masonry from "react-masonry-css";
 import Loading from "../../Shared/Loading";
-
 const breakpointColumnsObj = {
   default: 4,
   1100: 3,
@@ -31,9 +31,15 @@ export default function Notes() {
                 <p>{note?.note.slice(0, 300)} {note?.note.length > 200 ? '...' : ''} </p>
               </div>
               <div className="m-3 p-3 ">
-                <button className="btn btn-sm">U</button>
-                <button className="btn btn-sm">D</button>
-                <button className="btn btn-sm">S</button>
+                <button className="btn btn-sm mr-1">
+                  <MdTipsAndUpdates />
+                </button>
+                <button className="btn btn-sm mr-1">
+                  <MdDeleteSweep />
+                </button>
+                <button className="btn btn-sm">
+                  <MdOutlineShare />
+                </button>
               </div>
               <small>{note?.note.length} charecters</small>
             </div>
