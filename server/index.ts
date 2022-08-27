@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
-const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
+import { MongoClient, ObjectId, ServerApiVersion } from "mongodb";
+// const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 dotenv.config();
 
@@ -17,9 +18,8 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 // connect mongo db
-const client = new MongoClient(process.env.MONGO_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+const url = process.env.MONGO_URL || "";
+const client = new MongoClient(url, {
   serverApi: ServerApiVersion.v1,
 });
 async function connect() {
@@ -40,10 +40,10 @@ async function connect() {
     res.json(notes);
   });
 
-  //   get api by id
+  // get api by id
   app.get("/api/notes/:id", async (req: Request, res: Response) => {
     const note = await noteCollections.findOne({
-      _id: ObjectId(req.params.id),
+      _id: new ObjectId(req.params.id),
     });
     res.json(note);
   });
@@ -55,7 +55,7 @@ async function connect() {
   // patch api
   app.patch("/api/notes/:id", async (req: Request, res: Response) => {
     const note = await noteCollections.updateOne(
-      { _id: ObjectId(req.params.id) },
+      { _id: new ObjectId(req.params.id) },
       { $set: req.body }
     );
     res.json(note);
@@ -64,7 +64,7 @@ async function connect() {
   // delete api
   app.delete("/api/notes/:id", async (req: Request, res: Response) => {
     const note = await noteCollections.deleteOne({
-      _id: ObjectId(req.params.id),
+      _id: new ObjectId(req.params.id),
     });
     res.json(note);
   });
@@ -73,5 +73,5 @@ async function connect() {
 connect().catch(console.dir);
 
 app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
+  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
