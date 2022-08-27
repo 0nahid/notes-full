@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Toaster } from 'react-hot-toast';
 import { Route, Routes } from "react-router-dom";
 import Home from './Home/Home';
 import Loader from './Shared/Loader';
@@ -20,6 +21,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
         </Routes>
       </div>
+      <Toaster />
     </div>
   )
 }

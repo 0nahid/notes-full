@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 type FormValues = {
     title: string;
     note: string;
@@ -17,20 +18,26 @@ export default function Upload() {
         console.log(newData);
         reset();
         const res = await axios.post('http://localhost:5000/api/notes', newData);
-        console.log(res);
+        if (res.status === 200) {
+            toast.success('Note added successfully');
+        }
 
     }
     return (
         <div className="max-w-full md:w-1/2 mx-auto p-3">
             <form onSubmit={handleSubmit(onSubmit)}
-                className="shadow rounded bg-base-100 p-5 md:p-10">
+                className="shadow-md rounded bg-base-100 p-5 md:p-10">
+                <h1 className="font-bold">Add a note</h1>
                 <div className="my-2">
                     <input
                         type="text"
                         placeholder="Title"
                         className="input input-bordered w-full"
-                        {...register("title")}
+                        {...register("title", { maxLength: 30 })}
                     />
+                    <span>
+                        {errors?.title && <p className="text-red-500">Max length is 30</p>}
+                    </span>
                 </div>
                 <div className="my-2">
                     <textarea className="resize-y input input-bordered  w-full"
