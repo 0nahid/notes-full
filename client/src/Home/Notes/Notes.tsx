@@ -26,8 +26,8 @@ export default function Notes() {
       {/* Notes  */}
       <Masonry className="flex animate-slide-fwd" breakpointCols={breakpointColumnsObj}>
         {
-          notes?.data?.map((note: any) => (
-            <div className="card p-3 m-3 bg-base-100 shadow-xl w-100 note-hover">
+          notes?.data?.map((note: any, index: number) => (
+            <div className="card p-3 m-3 bg-base-100 shadow-xl w-100 note-hover" key={index} >
               <div className="card-body">
                 <h5 className="font-bold uppercase"> {note?.title ? note?.title?.slice(0, 15) : 'N/A'} {note?.title.length > 15 ? '...' : ''} </h5>
                 <p>{note?.note?.slice(0, 300)} {note?.note?.length > 200 ? '...' : ''} </p>

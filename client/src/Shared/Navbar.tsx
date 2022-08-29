@@ -1,9 +1,21 @@
+import { signOut } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import auth from "../firebase.init";
 
 export default function Navbar() {
-    const [user] = useAuthState(auth)
+    const [user] = useAuthState(auth);
+    const { pathname } = useLocation();
+    const navigate = useNavigate();
+    const logout = () => {
+        signOut(auth);
+        toast.success(`Thank you, ${user?.displayName} to stay with us!`, {
+            position: "bottom-right"
+        });
+        localStorage.removeItem("accessToken");
+        navigate("/");
+    };
     return (
         <div className="sticky top-0 z-40 border-b bg-slate-50/60 backdrop-blur-2xl transition-colors duration-500 ">
             <div className="navbar  flex justify-between">
@@ -23,7 +35,9 @@ export default function Navbar() {
                                 <Link to="/profile" className="">Profile</Link>
                             </li>
                             <li>
-                                <button>Sign out</button>
+                                <button
+                                    onClick={logout}
+                                >Sign out</button>
                             </li>
                         </ul>
                     </div>
