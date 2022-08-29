@@ -3,6 +3,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { Toaster } from 'react-hot-toast';
 import { Route, Routes } from "react-router-dom";
 import Login from './Auth/Login';
+import Register from './Auth/Register';
 import RequireAuth from './Auth/Secure/RequireAuth';
 import auth from './firebase.init';
 import Home from './Home/Home';
@@ -27,6 +28,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<RequireAuth><Home /></RequireAuth>} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </div>
       <Toaster />
