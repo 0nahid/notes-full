@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import auth from '../firebase.init';
+import useToken from '../Hooks/useToken';
 import Loading from '../Shared/Loading';
 type FormValues = {
   mail: string;
@@ -23,25 +24,31 @@ export default function Login() {
   ] = useSignInWithEmailAndPassword(auth);
   const navigate = useNavigate();
   const location = useLocation();
-
-
-  let fromB = location.pathname || '/';
-
-
+  let from = location.pathname || '/';
 
   const [user] = useAuthState(auth);
   const onSubmit: SubmitHandler<FormValues> = data => {
     // console.log(data)
     signInWithEmailAndPassword(data.mail, data.password);
   };
+  const [token] = useToken(sUser || gUser);
   useEffect(() => {
-    if (sUser || gUser) {
-      navigate(fromB, { replace: true });
-      toast.success(`Welcome Back, ${auth?.currentUser?.displayName}`);
-      navigate('/');
+    if (token) {
+      navigate(from, { replace: true });
+      toast.success(`Welcome Back, ${auth?.currentUser?.displayName}`)
+      navigate('/', { replace: true });
     }
-  }, [fromB, gUser, sUser, navigate]);
-
+  }, [from, token, navigate])
+  console.log(user?.email);
+  
+  useEffect(()=>{
+    if(user){
+      navigate(from, { replace: true });
+      toast.success(`Welcome Back, ${auth?.currentUser?.displayName}`)
+      navigate('/', { replace: true });
+    }
+  },[from, user, navigate])
+  
   let signInError;
   (gError || sError) ?
     signInError = <p className='text-red-500'><small>{sError?.message || gError?.message}</small></p> : signInError = ''
@@ -49,9 +56,7 @@ export default function Login() {
   if (gLoading || sLoading) {
     return <Loading />
   }
-  if (user) {
-    navigate('/')
-  }
+
   return (
     <div className="flex h-screen justify-center items-center px-4 lg:px-12">
       <div className="card w-96 bg-slate-50/60 backdrop-blur-2xl transition-colors duration-500">

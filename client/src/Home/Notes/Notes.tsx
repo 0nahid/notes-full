@@ -13,7 +13,11 @@ const breakpointColumnsObj = {
 };
 
 export default function Notes() {
-  const { data: notes, isLoading, refetch } = useQuery(['notes'], () => axios(`http://localhost:5000/api/notes`))
+  const { data: notes, isLoading, refetch } = useQuery(['notes'], () => axios(`http://localhost:5000/api/notes`, {
+    headers: {
+      authorization: `Bearer ${localStorage.getItem('aceessToken')} `
+    }
+  }))
   refetch();
   // console.log(notes);
 
