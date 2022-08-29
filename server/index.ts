@@ -15,7 +15,7 @@ const jwtToken = process.env.ACCESS_TOKEN_SECRET || "";
 // verify jwt token
 function verifyToken(req: Request, res: Response, next: NextFunction) {
   const authorization = req.headers?.authorization;
-  // console.log(`authorization`, authorization);
+  console.log(authorization);
   if (!authorization) {
     return res
       .status(403)
