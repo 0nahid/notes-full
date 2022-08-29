@@ -1,0 +1,10 @@
+.note-items {
+  display: none;
+}
+.note-hover:hover{
+  border: none;
+}
+.note-hover:hover .note-items {
+  display: block;
+  transition: all 0.5s ease-in-out;
+}

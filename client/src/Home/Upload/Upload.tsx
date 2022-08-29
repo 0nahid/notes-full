@@ -1,6 +1,8 @@
 import axios from 'axios';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import auth from '../../firebase.init';
 type FormValues = {
     title: string;
     note: string;
@@ -8,12 +10,14 @@ type FormValues = {
     errors?: string;
 };
 export default function Upload() {
+    const [user] = useAuthState(auth)
+    const email = user ? user.email : '';
     const { register, handleSubmit, reset, formState: { errors } } = useForm<FormValues>();
     const onSubmit: SubmitHandler<FormValues> = async data => {
         const newData = {
             title: data.title || '',
             note: data.note,
-            email: 'nahidhassanbulbul@gmail.com'
+            email: email
         }
         console.log(newData);
         reset();
@@ -26,7 +30,7 @@ export default function Upload() {
     return (
         <div className="max-w-full md:w-1/2 mx-auto p-3">
             <form onSubmit={handleSubmit(onSubmit)}
-                className="shadow-md rounded bg-base-100 p-5 md:p-10">
+                className="shadow-md rounded bg-base-100 p-5 md:px-10">
                 <h1 className="font-bold">Add a note</h1>
                 <div className="my-2">
                     <input
@@ -48,7 +52,7 @@ export default function Upload() {
                         {errors.note && <p className="text-red-500">Note is required</p>}
                     </span>
                 </div>
-                <div className="my-3 text-center">
+                <div className="text-center">
                     <button
                         className="btn btn-primary text-white"
                     >
