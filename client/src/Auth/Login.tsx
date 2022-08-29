@@ -32,6 +32,7 @@ export default function Login() {
     signInWithEmailAndPassword(data.mail, data.password);
   };
   const [token] = useToken(sUser || gUser);
+  
   useEffect(() => {
     if (token) {
       navigate(from, { replace: true });
@@ -39,7 +40,7 @@ export default function Login() {
       navigate('/', { replace: true });
     }
   }, [from, token, navigate])
-  console.log(user?.email);
+  // console.log(user?.email);
   
   useEffect(()=>{
     if(user){
@@ -48,7 +49,7 @@ export default function Login() {
       navigate('/', { replace: true });
     }
   },[from, user, navigate])
-  
+
   let signInError;
   (gError || sError) ?
     signInError = <p className='text-red-500'><small>{sError?.message || gError?.message}</small></p> : signInError = ''

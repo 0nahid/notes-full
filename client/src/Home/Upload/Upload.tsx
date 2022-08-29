@@ -16,7 +16,7 @@ export default function Upload() {
     const onSubmit: SubmitHandler<FormValues> = async data => {
         const newData = {
             title: data.title || '',
-            note: data.note,
+            note: [data.note],
             email: email
         }
         console.log(newData);
